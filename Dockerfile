@@ -7,6 +7,9 @@ WORKDIR /service
 # то есть не нужно будет писать полный путь до файла manage.py, будем запускать из той папки где этот файл manage.py находится
 EXPOSE 8000
 
+RUN apk add postgresql-client build-base postgresql-dev
+# эти три пакета (зависимости) нужны установить в Linux для подключения python к postgres
+
 RUN pip install -r /temp/requirements.txt
 
 RUN adduser --disabled-password service-user

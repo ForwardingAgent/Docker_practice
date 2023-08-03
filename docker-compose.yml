@@ -6,6 +6,28 @@ services:
       - "8000:8000"
     volumes:
       - ./service:/service
+    environment: # переменные среды линукс
+      - DB_HOST=database  # ссылка на сервис database
+      - POSTGRES_DB=dbname
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=pass
     
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"
+
+    depends_on:
+      database:
+        condition: service_healthy
+
+  
+  database:
+    image: postgres:14.8-alpine3.17
+    environment:
+      - POSTGRES_DB=dbname
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=pass
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 7s
+      timeout: 5s
+      retries: 5
