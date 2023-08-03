@@ -1,11 +1,16 @@
-FROM python:3.8
+FROM python:3.9-alpine3.16
 
-COPY . /app
+COPY requirements.txt /temp/requirements.txt
+COPY service /service
+WORKDIR /service
+# WORKDIR - для того чтобы когда мы какие-то команды передавали внутрь контейнера, то они запускались из этой директории, из той где лежит Django приложение
+# то есть не нужно будет писать полный путь до файла manage.py, будем запускать из той папки где этот файл manage.py находится
+EXPOSE 8000
 
-WORKDIR /app/
+RUN pip install -r /temp/requirements.txt
 
-EXPOSE 80
+RUN adduser --disabled-password service-user
+# adduser создает юзера| --disabled-password не нужен пароль, тк к контейнеру имею доступ только я| service-user это имя юзера
 
-# RUN pip install datetime  
-
-CMD [ "python", "test.py" ]
+USER service-user
+# создаем юзера чтобы не под root заходить, а от имени юзера выполнять все команды
