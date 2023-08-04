@@ -8,3 +8,7 @@ class Client(models.Model):
     # on_delete - при удалении юзера проверит если связаные с ним модели Client и если есть то не даст удалить эту модель юзера
     company_name = models.CharField(max_length=100)
     full_address = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"Client: {self.company_name}"
+    

@@ -5,6 +5,7 @@ from clients.models import Client
 
 class Service(models.Model):
     name = models.CharField(max_length=50)
+    # PositiveIntegerField - число, скидка по подписке  
     full_price = models.PositiveIntegerField()
 
 
@@ -16,6 +17,7 @@ class Plan(models.Model):
     )
 
     plan_type = models.CharField(choices=PLAN_TYPES, max_length=10)
+    # PositiveIntegerField - число, скидка по подписке 
     discount_percent = models.PositiveIntegerField(default=0,
                                                    validators=[
                                                        MaxValueValidator(100)
