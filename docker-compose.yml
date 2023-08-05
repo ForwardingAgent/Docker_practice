@@ -5,7 +5,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./service:/service
+      - ./service:/service  # "мост" дает возм-ть сделать новый файл в докере и он появится сразу в локальном проекте(например docker-compose exec web-app ./manage.py startapp new app - команда которая в докер контейнере создает новое джанго приложение), и на оборот создав новый файл любой локально он сразу будет и в докере без ребилда.
     environment: # переменные среды линукс
       - DB_HOST=database  # ссылка на сервис database
       - POSTGRES_DB=dbname
@@ -18,6 +18,7 @@ services:
     depends_on:
       database:
         condition: service_healthy
+        # добавлен т.к. web-app не должно запускаться раньше чем БД
 
   
   database:

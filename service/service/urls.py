@@ -23,7 +23,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
+# 3 видео 34;00 routers - 
 router = routers.DefaultRouter()
 router.register(r'api/subscription', SubscriptionView)
+# 3 видео 35:00 передаем SubscriptionView (наследованое от ReadOnlyModelViewSet в services.views.py) в router т.е. в DefaultRouter(), и он будет сам генерировать url
 
 urlpatterns += router.urls
+# добавляются url от роутера 
